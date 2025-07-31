@@ -272,7 +272,12 @@
             isValidUrl(string) {
                 try {
                     const url = new URL(string);
-                    return url.protocol === 'http:' || url.protocol === 'https:';
+                    // Allow HTTP, HTTPS, and custom app schemes
+                    const allowedProtocols = ['http:', 'https:'];
+                    const customSchemePattern = /^[a-zA-Z][a-zA-Z0-9+.-]*:$/;
+                    
+                    return allowedProtocols.includes(url.protocol) || 
+                           customSchemePattern.test(url.protocol);
                 } catch (_) {
                     return false;
                 }
@@ -281,6 +286,14 @@
             isSafeUrl(url) {
                 try {
                     const urlObj = new URL(url);
+                    
+                    // For custom schemes (like app deep links), allow them through
+                    if (urlObj.protocol !== 'http:' && urlObj.protocol !== 'https:') {
+                        // Basic validation for custom schemes
+                        return /^[a-zA-Z][a-zA-Z0-9+.-]*:\/\//.test(url);
+                    }
+                    
+                    // For HTTP/HTTPS URLs, apply security checks
                     const hostname = urlObj.hostname.toLowerCase();
                     
                     // Block localhost and private IPs for security

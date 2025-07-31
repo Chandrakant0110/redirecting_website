@@ -6,6 +6,7 @@ A secure, lightweight redirect service that safely redirects users to specified 
 
 - Secure redirects with malicious URL blocking
 - Multiple URL formats (query parameters and path-based)
+- Support for deep links and custom URL schemes
 - Clean, responsive UI with loading animations
 - Fallback manual redirect button
 - Built-in security headers and validation
@@ -25,6 +26,12 @@ https://yoursite.com/https://example.com
 https://yoursite.com/https://github.com/username/repo
 ```
 
+### Deep Links (App Redirects)
+```
+https://yoursite.com/?redirect=qubikoai://callback?token=xyz123
+https://yoursite.com/?url=myapp://open?screen=profile
+```
+
 ## Setup
 
 1. **Local**: Open `index.html` in your browser
@@ -34,10 +41,11 @@ https://yoursite.com/https://github.com/username/repo
 
 ## Security
 
-The service blocks redirects to:
+For HTTP/HTTPS URLs, the service blocks redirects to:
 - localhost, 127.0.0.1, private IPs
-- Non-HTTP/HTTPS protocols
 - Malformed URLs
+
+For app deep links, basic URL format validation is applied.
 
 ## Customization
 
